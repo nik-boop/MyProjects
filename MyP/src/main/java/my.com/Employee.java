@@ -1,288 +1,247 @@
 package my.com;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Employee {
 
-    private static int counter = 0;
-    public static boolean isExit = true;
-    public static boolean isEnd = false;
-    public static int choice;
-    private int[] idArray;
-    private static int id;
+    private static final int arrayLen = 100;
+    private static final ArrayList<Map> employee = new ArrayList<>(arrayLen);
 
-    private static ArrayList<String> nameArray = new ArrayList<>();
-    private static String name = "";
+    private static final ArrayList<Integer> idArray = new ArrayList<>(arrayLen);
 
-    private static ArrayList<String> surNameArray = new ArrayList<>();
+    public static void createEmployer(
+            int id,
+            String name,
+            String lastName,
+            int year,
+            String birthdayPlease,
+            double salary,
+            String maritalStatus){
 
-    private static ArrayList<Integer> birthYearArray = new ArrayList<>();
-    private static int birthYear;
+        if (idArray.contains(id)){
+            return;
+        } else {
+            idArray.add(id);
+        }
 
-    private static ArrayList<String> birthPlaceArray = new ArrayList<>();
-    private static String birthPlace = "";
+        Map<String, String> employer = new HashMap<>();
 
-    private static ArrayList<Integer> salaryArray = new ArrayList<>();
-    private static int salary;
+        employer.put("id", Integer.toString(id));
+        employer.put("name", name);
+        employer.put("lastName", lastName);
+        employer.put("year", Integer.toString(year));
+        employer.put("birthdayPlease", birthdayPlease);
+        employer.put("salary", Double.toString(salary));
+        employer.put("maritalStatus", maritalStatus);
 
-    private static ArrayList<String> famStatusArray = new ArrayList<>();
-    private static String famStatus = "";
+        employee.add(employer);
+    }
 
+    public static ArrayList<String> getIdArray() {
+        ArrayList<String> ids = new ArrayList<>();
+        for (var emp: employee) {
+            ids.add(emp.get("id").toString());
+        }
+
+        return ids;
+    }
+    public static String setId(int id, int new_id) {
+
+        if (idArray.contains(new_id)){
+            return "Impossible id";
+        }
+
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                emp.put("id", Integer.toString(new_id));
+                return (String) emp.get("id");
+            }
+        }
+        return "NaN";
+    }
     public static String getName(int id) {
-        return nameArray.get(id - 1);
-    }
-
-    public static void setName(String name, int id) {
-        if (nameArray.isEmpty()) {
-            nameArray.add(name);
-        } else {
-            nameArray.set(id - 1, name);
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                return (String) emp.get("name");
+            }
         }
+        return "NaN";
     }
-
-    public static String getSurName(int id) {
-        return surNameArray.get(id - 1);
-    }
-
-    public static void setSurName(String surName, int id) {
-        if (surNameArray.isEmpty()) {
-            surNameArray.add(surName);
-        } else {
-            surNameArray.set(id - 1, surName);
+    public static String setName(int id, String name) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                emp.put("name", name);
+                return (String) emp.get("name");
+            }
         }
+        return "NaN";
     }
-
+    public static String getLastName(int id) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                return (String) emp.get("lastName");
+            }
+        }
+        return "NaN";
+    }
+    public static String setLastName(int id, String lastName) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                emp.put("lastName", lastName);
+                return (String) emp.get("lastName");
+            }
+        }
+        return "NaN";
+    }
+    public static String getYear(int id) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                return (String) emp.get("year");
+            }
+        }
+        return "NaN";
+    }
+    public static String setYear(int id, int year) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                emp.put("year", Integer.toString(year));
+                return (String) emp.get("year");
+            }
+        }
+        return "NaN";
+    }
     public static String getBirthPlace(int id) {
-        return birthPlaceArray.get(id - 1);
-    }
-
-    public static void setBirthPlace(String birthPlace, int id) {
-        if (birthPlaceArray.isEmpty()) {
-            birthPlaceArray.add(birthPlace);
-        } else {
-            birthPlaceArray.set(id - 1, birthPlace);
-        }
-    }
-
-    public static String getFamStatus(int id) {
-        return famStatusArray.get(id - 1);
-    }
-
-    public static void setFamStatus(String famStatus, int id) {
-        if (famStatusArray.isEmpty()) {
-            famStatusArray.add(famStatus);
-        } else {
-            famStatusArray.set(id - 1, famStatus);
-        }
-    }
-
-    public static int getBirthYear(int id) {
-        return birthYearArray.get(id - 1);
-    }
-
-    public static void setBirthYear(int birthYear, int id) {
-        if (birthYearArray.isEmpty()) {
-            birthYearArray.add(birthYear);
-        } else {
-            birthYearArray.set(id - 1, birthYear);
-        }
-    }
-
-    public static int getSalary(int id) {
-        return salaryArray.get(id - 1);
-    }
-
-    public static void setSalary(int salary, int id) {
-        if (salaryArray.isEmpty()) {
-            salaryArray.add(salary);
-        } else {
-            salaryArray.set(id - 1, salary);
-        }
-    }
-
-    public static int getCounter() {
-        return counter;
-    }
-
-    public static void getFullInfo(int id) {
-        String infName = getName(id);
-        String infSurName = getSurName(id);
-        int infBirthYear = getBirthYear(id);
-        String infBirthPlace = getBirthPlace(id);
-        int infSalary = getSalary(id);
-        String infFamStatus = getFamStatus(id);
-
-        System.out.println("Имя: "+infName+"\nФамилия: "+infSurName+"\nГод рождения: "+infBirthYear
-                +"\nМесто рождения: "+infBirthPlace+"\nЗарплата: "+infSalary+"\nСемейное положение: "+infFamStatus);
-    }
-
-    public static void getFullInfoByName(String name) {
-        for (int i = 0; i < nameArray.size(); i++) {
-            if (nameArray.get(i).toLowerCase().equals(name.toLowerCase())) {
-                Employee.getFullInfo(i + 1);
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                return (String) emp.get("birthdayPlease");
             }
         }
+        return "NaN";
     }
-
-    public static void getFullInfoByBirthYear(int birthYear) {
-        for (int i = 0; i < birthYearArray.size(); i++) {
-            if (birthYearArray.get(i).equals(birthYear)) {
-                Employee.getFullInfo(i + 1);
+    public static String setBirthPlace(int id, String birthdayPlease) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                emp.put("birthdayPlease", birthdayPlease);
+                return (String) emp.get("birthdayPlease");
             }
         }
+        return "NaN";
     }
-
-    public static void getFullSalary() {
-        int finalSalary = 0;
-        for (int i = 0; i < salaryArray.size(); i++) {
-            finalSalary = finalSalary + salaryArray.get(i);
-        }
-        System.out.println(finalSalary+" у.е.");
-    }
-
-    public static void main(String[] args){
-        Scanner in = new Scanner(System.in);
-        System.out.println("Добро пожаловать в архив информации сотрудников фирмы!");
-        System.out.println("Выберите из списка, что желаете выполнить:");
-        while (isExit) {
-            System.out.println(
-                    """
-                        ================ Главное меню =============
-                        1 - Ввести любое количество сотрудников.
-                        2 - Искать сотрудника по id и печатать его информацию.
-                        3 - Искать сотрудника по имени или году рождения.
-                        4 - Изменить любую информацию о сотруднике.
-                        5 - Рассчитать общую сумму денег, которые сотрудники получают в качестве заработной платы.
-                        6 - Завершить поиск в архиве (exit).
-                    """);
-            choice = in.nextInt();
-            if (choice == 1){
-                do {
-                    System.out.println("Ввод данных сотрудника: ");
-                    id++;
-                    System.out.print("Ввод имени => ");
-                    name = in.next();
-                    Employee.nameArray.add(name);
-
-                    System.out.print("Ввод фамилии => ");
-                    String surName = in.next();
-                    Employee.surNameArray.add(surName);
-
-                    System.out.print("Ввод года рождения => ");
-                    birthYear = in.nextInt();
-                    Employee.birthYearArray.add(birthYear);
-
-                    System.out.print("Ввод места рождения => ");
-                    birthPlace = in.next();
-                    Employee.birthPlaceArray.add(birthPlace);
-
-                    System.out.print("Ввод зарплаты => ");
-                    salary = in.nextInt();
-                    Employee.salaryArray.add(salary);
-
-                    System.out.print("Ввод семейного положения => ");
-                    famStatus = in.next();
-                    Employee.famStatusArray.add(famStatus);
-
-                    counter++;
-
-                    System.out.println("Информация о новом сотруднике (№ "+counter+"):");
-                    System.out.println("Имя: "+name+"\nФамилия: "+ surName +"\nГод рождения: "+birthYear
-                            +"\nМесто рождения: "+birthPlace+"\nЗарплата: "+salary
-                            +"\nСемейное положение: "+famStatus);
-
-                    System.out.print("Желаете добавить ещё одного? (true/false) => ");
-                    boolean end = in.nextBoolean();
-                    if (end) {
-                        continue;
-                    } else {
-                        break;
-                    }
-                } while (Employee.getCounter() < 100);
-                System.out.println("Добавление сотрудников приостановлено!");
-            } else if (choice == 2) {
-                do {
-                    System.out.print("Введите id (от 1 до 100) для поиска сотрудника => ");
-                    int searchId = in.nextInt();
-                    Employee.getFullInfo(searchId);
-
-                    System.out.print("Желаете продолжить поиск? (true/false) => ");
-                    isEnd = in.nextBoolean();
-                } while (isEnd);
-            } else if (choice == 3) {
-                isEnd = true;
-                do {
-                    System.out.println("Что вы знаете о сотруднике?\nИмя (введите 1) или год рождения (введите 2)?");
-                    int searchNum = in.nextInt();
-                    if (searchNum == 1){
-                        System.out.print("Введите имя сотрудника (с заглавной буквы): ");
-                        String searchName = in.next();
-                        Employee.getFullInfoByName(searchName);
-                    } else if (searchNum == 2) {
-                        System.out.print("Введите год рождения: ");
-                        int searchBirthYear = in.nextInt();
-                        Employee.getFullInfoByBirthYear(searchBirthYear);
-                    }
-
-                    System.out.print("Желаете продолжить поиск? (true/false) => ");
-                    isEnd = in.nextBoolean();
-                } while (isEnd);
-            } else if (choice == 4) {
-                System.out.print("Введите id (от 1 до 100) для поиска сотрудника => ");
-                int searchId = in.nextInt();
-
-                System.out.println("На данный момент об этом сотруднике следующая информация: ");
-                Employee.getFullInfo(searchId);
-
-                System.out.println(
-                        """
-                            Какую информацию желаете изменить об этом сотруднике?
-                            1 - Имя.
-                            2 - Фамилия.
-                            3 - Год рождения.
-                            4 - Место рождения.
-                            5 - Зарплата.
-                            6 - Семейное положение.
-                        """);
-                int setPoint = in.nextInt();
-                if (setPoint == 1) {
-                    System.out.print("На какое имя желаете поменять: ");
-                    String newName = in.next();
-                    Employee.setName(newName, searchId);
-                } else if (setPoint == 2) {
-                    System.out.print("На какую фамилию желаете поменять: ");
-                    String newSurName = in.next();
-                    Employee.setSurName(newSurName, searchId);
-                } else if (setPoint == 3) {
-                    System.out.print("На какой год рождения желаете поменять: ");
-                    int newBirthYear = in.nextInt();
-                    Employee.setBirthYear(newBirthYear, searchId);
-                } else if (setPoint == 4) {
-                    System.out.print("На какое место рождения желаете поменять: ");
-                    String newBirthPlace = in.next();
-                    Employee.setBirthPlace(newBirthPlace, searchId);
-                } else if (setPoint == 5) {
-                    System.out.print("На какую зарплату желаете поменять: ");
-                    int newSalary = in.nextInt();
-                    Employee.setSalary(newSalary, searchId);
-                } else if (setPoint == 6) {
-                    System.out.print("На какое семейное положение желаете поменять: ");
-                    String newFamStatus = in.next();
-                    Employee.setFamStatus(newFamStatus, searchId);
-                }
-
-                System.out.println("После изменений информация о сотруднике приобрела следующий вид: ");
-                Employee.getFullInfo(searchId);
-            } else if (choice == 5) {
-                System.out.println("Общая выручка сотрудников:");
-                Employee.getFullSalary();
-            } else if (choice == 6) {
-                isExit = false;
-            } else {
-                System.out.println("Неправильно определён номер в меню. Попробуйте снова!");
+    public static String getSalary(int id) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                return (String) emp.get("salary");
             }
         }
-        System.out.println("До новых встреч!!!");
+        return "NaN";
+    }
+    public static String setSalary(int id, double salary) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                emp.put("salary", Double.toString(salary));
+                return (String) emp.get("salary");
+            }
+        }
+        return "NaN";
+    }
+    public static String getMaritalStatus(int id) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                return (String) emp.get("maritalStatus");
+            }
+        }
+        return "NaN";
+    }
+    public static String setMaritalStatus(int id, String maritalStatus) {
+        for (var emp: employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                emp.put("maritalStatus", maritalStatus);
+                return (String) emp.get("maritalStatus");
+            }
+        }
+        return "NaN";
+    }
+
+
+    public static Map getFullInfo(int id) {
+        Map result = null;
+
+        for (var emp : employee) {
+            if (emp.get("id").equals(Integer.toString(id))) {
+                result = emp;
+                break;
+            }
+        }
+        return result;
+    }
+
+    public static ArrayList<Map> getFullInfoByName(String name) {
+        ArrayList<Map> result = new ArrayList<Map>();
+        for (var emp : employee) {
+            if (emp.get("name").equals(name)) {
+                result.add(emp);
+            }
+        }
+        return result;
+
+    }
+
+    public static ArrayList<Map> getFullInfoByYear(int birthYear) {
+        ArrayList<Map> result = new ArrayList<Map>();
+        for (var emp : employee) {
+            if (emp.get("year").equals(Integer.toString(birthYear))) {
+                result.add(emp);
+            }
+        }
+        return result;
+
+    }
+
+    public static double getFullSalary() {
+
+        double result = 0;
+        for (var emp : employee) {
+            result += Double.parseDouble(emp.get("salary").toString());
+        }
+        return result;
+
+    }
+
+    public static void main(String[] args) {
+        Employee.createEmployer(
+                1,
+                "mik",
+                "mok",
+                2001,
+                "v bock1",
+                12000000,
+                "0");
+        Employee.createEmployer(
+                2,
+                "mik",
+                "mok",
+                2001,
+                "v bock2",
+                12,
+                "0");
+        Employee.createEmployer(
+                3,
+                "mik2",
+                "mok",
+                2002,
+                "v bock3",
+                1200000000,
+                "0");
+
+
+        System.out.println(Arrays.toString(getIdArray().toArray()));
+        //System.out.println(Arrays.toString(employee.toArray()));
+
+        System.out.println(getFullInfoByYear(2002));
+
+        //System.out.println(Arrays.toString(employee.toArray()));
+
+
+
     }
 }
