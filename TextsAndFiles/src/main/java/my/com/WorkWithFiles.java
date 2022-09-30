@@ -88,20 +88,21 @@ public class WorkWithFiles {
     }
 
     public static int integerCount(String text) {
-        return patternCount(text, "(?<!\\.|\\d)\\d+(?!\\.)");
+        return patternCount(text, "(?<!\\.|\\d)\\b\\d+(?![.\\d])");
     }
 
     public static String[] integers(String text) {
-        return getPattern(text, "(?<!\\.|\\d)\\d+(?!\\.)");
+        return getPattern(text, "(?<!\\.|\\d)\\b\\d+(?![.\\d])");
+
     }
 
     public static int doublesCount(String text) {
-        return patternCount(text, "\\d\\.\\d*");
+        return patternCount(text, "\\b\\d+\\.\\d*");
     }
 
 
     public static String[] doubles(String text) {
-        return getPattern(text, "\\d\\.\\d*");
+        return getPattern(text, "\\b\\d+\\.\\d*");
     }
 
 
@@ -157,41 +158,61 @@ public class WorkWithFiles {
         return new String[]{Integer.toString(Index), "how"};
     }
 
+    public static void printSave(StringBuilder sb, String text){
+        sb.append(text);
+        System.out.print(text);
+    }
+
 
     public static void main(String[] args) {
         String text = readFile();
         StringBuilder sb = new StringBuilder();
-        sb.append("text\n---\n" + text + "\n---\n");
-        System.out.println("text: \n" + text);
-        sb.append("word count: " + wordCount(text) + "\n");
-        System.out.println("word count: " + wordCount(text));
-        sb.append("uppercase Letters Count: " + uppercaseLettersCount(text) + "\n");
-        System.out.println("uppercase Letters Count: " + uppercaseLettersCount(text));
-        sb.append("lowercase Letters Count: " + lowercaseLettersCount(text) + "\n");
-        System.out.println("lowercase Letters Count: " + lowercaseLettersCount(text));
-        sb.append("uppercase and lowercase Letters Count: " + (lowercaseLettersCount(text) + uppercaseLettersCount(text)) + "\n");
-        System.out.println("uppercase and lowercase Letters Count: " + (lowercaseLettersCount(text) + uppercaseLettersCount(text)));
-        sb.append("blank Count: " + blankCount(text) + "\n");
-        System.out.println("blank Count: " + blankCount(text));
-        sb.append("integers Count: " + integerCount(text) + "\n");
-        System.out.println("integers Count: " + integerCount(text));
-        sb.append("integers: " + Arrays.toString(integers(text)) + "\n");
-        System.out.println("integers: " + Arrays.toString(integers(text)));
+        String outputText;
+
+        outputText = "text\n---\n" + text + "\n---\n";
+        printSave(sb, outputText);
+
+        outputText = "word count: " + wordCount(text) + "\n";
+        printSave(sb, outputText);
+
+        outputText = "uppercase Letters Count: " + uppercaseLettersCount(text) + "\n";
+        printSave(sb, outputText);
+
+        outputText = "lowercase Letters Count: " + lowercaseLettersCount(text) + "\n";
+        printSave(sb, outputText);
+
+        outputText = "uppercase and lowercase Letters Count: " + (lowercaseLettersCount(text) + uppercaseLettersCount(text)) + "\n";
+        printSave(sb, outputText);
+
+        outputText = "blank Count: " + blankCount(text) + "\n";
+        printSave(sb, outputText);
+
+        outputText = "integers Count: " + integerCount(text) + "\n";
+        printSave(sb, outputText);
+
+        outputText = "integers: " + Arrays.toString(integers(text)) + "\n";
+        printSave(sb, outputText);
+
 
         for (String s : integers(text)) {
-            sb.append(String.format("%x", Integer.parseInt(s)) + "\n");
-            System.out.printf("%x%n", Integer.parseInt(s));
+            outputText = String.format("%x", Integer.parseInt(s)) + "\n";
+            printSave(sb, outputText);
         }
-        sb.append("double Count: " + doublesCount(text) + "\n");
-        System.out.println("double Count: " + doublesCount(text));
-        sb.append("doubles: " + Arrays.toString(doubles(text)) + "\n");
-        System.out.println("doubles: " + Arrays.toString(doubles(text)));
+
+        outputText = "double Count: " + doublesCount(text) + "\n";
+        printSave(sb, outputText);
+
+        outputText = "doubles: " + Arrays.toString(doubles(text)) + "\n";
+        printSave(sb, outputText);
+
         for (String s : doubles(text)) {
-            sb.append(String.format("%.2f", Double.parseDouble(s)) + "\n");
-            System.out.printf("%.2f%n", Double.parseDouble(s));
+            outputText = String.format("%.2f", Double.parseDouble(s)) + "\n";
+            printSave(sb, outputText);
         }
-        sb.append("dell Pattern\n---\n" + delPattern(text, "[\"\\,\\. \\!\\?]") + "\n---" + "\n");
-        System.out.println("dell Pattern\n---\n" + delPattern(text, "[\"\\,\\. \\!\\?]") + "\n---");
+
+        outputText = "dell Pattern\n---\n" + delPattern(text, "[\"\\,\\. \\!\\?]") + "\n---" + "\n";
+        printSave(sb, outputText);
+
         writeFile(sb.toString());
         Scanner s = new Scanner(System.in);
         String word = s.nextLine();

@@ -235,11 +235,11 @@ public class Employee {
 
 
         System.out.println(Arrays.toString(getIdArray().toArray()));
-        //System.out.println(Arrays.toString(employee.toArray()));
+        System.out.println(Arrays.toString(employee.toArray()));
 
         System.out.println(getFullInfoByYear(2002));
 
-        //System.out.println(Arrays.toString(employee.toArray()));
+        System.out.println(Arrays.toString(employee.toArray()));
 
 
 

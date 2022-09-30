@@ -1,30 +1,22 @@
 text
 ---
-Hello it`s my!
-How are you?
-Привет Как Дела?
-1 2 11 4.4 5.5 .6 7. 8.888
+Word1 Word2 55 552.3366 / !
 ---
-word count: 17
-uppercase Letters Count: 5
-lowercase Letters Count: 27
-uppercase and lowercase Letters Count: 32
-blank Count: 13
-integers Count: 3
-integers: [1, 2, 11]
+word count: 6
+uppercase Letters Count: 2
+lowercase Letters Count: 6
+uppercase and lowercase Letters Count: 8
+blank Count: 5
+integers Count: 4
+integers: [1, 2, 55, 55]
 1
 2
-b
-double Count: 4
-doubles: [4.4, 5.5, 7., 8.888]
-4,40
-5,50
-7,00
-8,89
+37
+37
+double Count: 1
+doubles: [2.3366]
+2,34
 dell Pattern
 ---
-Helloit`smy
-Howareyou
-ПриветКакДела
-12114455678888
+Word1Word2555523366/
 ---
