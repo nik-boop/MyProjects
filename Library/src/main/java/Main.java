@@ -8,20 +8,21 @@ public class Main {
 
     public static void main(String[] args) {
 
-        FileReader books = new Books();
+        Book books = new Book();
 
         HashMap<String , String> addRow = new HashMap<>();
-        String[] columnName = books.columnsName;
+        String[] columnName = new String[] {"id", "name", "author", "edition", "publisher", "publication_year", "category"};
         String[] values = new String[]{"20", "Book2", "Author1", "Издано: \"2003\"", "ABC\"Book\"", "2003", "roman"};
         for (int index = 0; index < columnName.length; index++){
             addRow.put(columnName[index], values[index]);
         }
-        books.addNewRow(addRow);
+
+        //books.addNewBook(addRow);
 
         try {
             ArrayList<Integer> ids = books.getIDsFromValue("author", "Author1");
 
-            System.out.printf("Value %s include in row with ids: %s", "Author1", ids);
+            System.out.printf("Value %s include in row with ids: %s%n", "Author1", ids);
 
             HashMap<String, String> row1 = books.getRowFromId(1);
             for (String name: row1.keySet()) {
@@ -31,7 +32,7 @@ public class Main {
 
             ArrayList<HashMap<String, String>> rows = books.getRowsFromId(ids);
 
-            System.out.printf("Value %s include in row with ids: %s", "Author1", ids);
+            System.out.printf("Value %s include in row with ids: %s%n", "Author1", ids);
 
             int count = 0;
             for(HashMap<String, String> row : rows){
@@ -57,46 +58,5 @@ public class Main {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-
-
-        /*
-
-        HashMap<String , String> addRow = new HashMap<>();
-        for (String column :new String[]{"id", "name", "author", "publisher", "edition", "publication_year", "category"}){
-            addRow.put(column, "123");
-        }
-        try {
-            HashMap<String, String> delRow = books.deleteRow(1);
-            for (String name: delRow.keySet()) {
-                String value = delRow.get(name).toString();
-                System.out.printf("%-20s :: %s%n",name, value);
-            }
-            books.addNewRow(addRow);
-            HashMap<String, String> row = books.getRowFromId(1);
-            for (String name: row.keySet()) {
-                String value = row.get(name).toString();
-                System.out.printf("%-20s :: %s%n",name, value);
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        //---
-        try {
-            books.startRead("id");
-        } catch (Exception e) {
-            System.out.println("Fail open reader");
-            e.printStackTrace();
-        }
-        System.out.println(books.getReadColumnName());
-        System.out.println(books.getNextLine());
-        System.out.println(books.getNextLine());
-
-        try {
-            books.writeFile("Hi");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        */
     }
 }

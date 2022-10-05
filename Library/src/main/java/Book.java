@@ -5,19 +5,28 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public abstract class FileReader {
+public class Book {
 
     private final String rootPath = "src/main/resources";
-    private String dataDir;
-    protected String[] columnsName;
+    private String dataDir = "Books";
+    protected String[] columnsName  = new String[] {"id", "name", "author", "publisher", "edition", "publication_year", "category"};
 
     private int length = 0;
     private int ID = 0;
     private String readColumnName;
     private java.io.FileReader reader;
 
+    protected ArrayList<HashMap<String, String>> allData;
 
 
+    public Book() {
+        try {
+            allData = getAllData();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
     private boolean checkColumnName(String column){
         if (column.equals("log")) return true;
         for (String element : columnsName) {
@@ -37,7 +46,7 @@ public abstract class FileReader {
         stopRead();
     }
 
-    protected void startRead(String column) throws Exception {
+    private void startRead(String column) throws Exception {
         if(!checkColumnName(column)) throw new Exception("don`t find column");
         reader = new java.io.FileReader(rootPath + "/" + dataDir + "/" + column);
         ID = 0;
@@ -122,7 +131,7 @@ public abstract class FileReader {
         String getValue = getNextLine();
         while (getValue != null) {
             if (getValue.equals(value)){
-                id.add(ID);
+                id.add(ID-1);
             }
             getValue = getNextLine();
         }
@@ -185,11 +194,21 @@ public abstract class FileReader {
         return delRow;
     }
 
-    public void addNewRow(HashMap<String, String> newRow){
+    public void addNewBook(HashMap<String, String> newRow){
         for (String column :columnsName){
             addToColumn(column, newRow.get(column)+"\n");
         }
         length++;
     }
-    abstract void log(String text);
+
+    public void addNewBook(int id, String name, String author, String edition, String publisher, int publication_year, String category){
+        HashMap<String , String> addRow = new HashMap<>();
+        addRow.put("id", Integer.toString(id));
+        addRow.put("author", author);
+        addRow.put("edition", edition);
+        addRow.put("publisher", publisher);
+        addRow.put("publication_year", Integer.toString(publication_year));
+        addRow.put("category", category);
+        addNewBook(addRow);
+    }
 }
