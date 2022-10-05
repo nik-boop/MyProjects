@@ -1,102 +1,210 @@
-import java.io.FileWriter;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public abstract class FileReader {
 
-    private final int CountColumn = 7;
-    private String[] path;
-    private String separate;
-    private ArrayList<ArrayList> lineList = new ArrayList<>();
+    private final String rootPath = "src/main/resources";
+    private final String dataDir;
+    private final String[] columnsName;
 
-    public FileReader(String[] path, String separate) {
-        this.path = path;
-        this.separate = separate;
+    private int length = 0;
+
+    private int ID = 0;
+    private String readColumnName;
+    private java.io.FileReader reader;
+
+    public FileReader(String dataDir, String[] columnsName) {
+        this.dataDir = dataDir;
+        this.columnsName = columnsName;
     }
 
-
-    private String readFile(String path) {
-        StringBuilder sb = new StringBuilder();
-        try {
-            java.io.FileReader myReader = new java.io.FileReader(path);
-            int character = myReader.read();
-            while (character != -1) {
-                sb.append((char) character);
-                character = myReader.read();
+    private boolean checkColumnName(String column){
+        for (String element : columnsName) {
+            if (element == column) {
+                return true;
             }
-            myReader.close();
-        } catch (Exception e) {
-            System.out.println("Text reading failed.");
-            e.printStackTrace();
         }
-        return sb.toString();
+        return false;
     }
 
-    public ArrayList<ArrayList> getBooksInfo(HashMap<Integer, String> MapCount){
-        ArrayList<String> line = new ArrayList();
-        StringBuilder sb = new StringBuilder();
-        try {
-            java.io.FileReader myReader = new java.io.FileReader(this.path);
-            int character = myReader.read();
-            while (character != -1) {
-                sb.append((char) character);
-                character = myReader.read();
+    public int getCountRows() throws Exception {
+        startRead(columnsName[0]);
+        while (true) {
+            if (stepOnNextLine() == -1) break;
+        }
+        length = ID;
+        stopRead();
+        return length;
+    }
+
+    public void startRead(String column) throws Exception {
+        boolean test = false;
+        for (String element : columnsName) {
+            if (element == column) {
+                test = true;
+                break;
             }
-            myReader.close();
-        } catch (Exception e) {
-            System.out.println("Text reading failed.");
-            e.printStackTrace();
         }
-        return new ArrayList<>();
+        if(!test) throw new Exception("don`t find column");
+        reader = new java.io.FileReader(rootPath + "/" + dataDir + "/" + column);
+        ID = 0;
+        readColumnName = getNextLine();
+
     }
 
-    public ArrayList<ArrayList> getBooksFromId(){
-        return new ArrayList<>();
+    public void stopRead(){
+        ID = 0;
+        reader = null;
+        readColumnName = null;
     }
 
-    public ArrayList<ArrayList> getAllBooks(){
-        return new ArrayList<>();
-    }
-
-
-    public void writeFile(String text) {
+    private void rewriteColumn(String column, String data){
         try {
-            FileWriter myWriter = new FileWriter(this.path);
-            myWriter.write(text);
+            FileWriter myWriter = new FileWriter(rootPath + "/" + dataDir + "/" + column);
+            myWriter.write(data);
             myWriter.close();
-            System.out.println("Text saved successfully.");
         } catch (Exception e) {
             System.out.println("Text saving failed.");
             e.printStackTrace();
         }
-
     }
 
-    public static void main(String[] args) {
-        System.out.println();
+    private void addToColumn(String column, String row){
+        try {
+            Files.write(Path.of(rootPath + "/" + dataDir + "/" + column), row.getBytes(), StandardOpenOption.APPEND);
+        }catch (IOException e) {
+            System.out.println("Text append failed.");
+            e.printStackTrace();
+        }
     }
 
-    public String getPath() {
-        return path;
+    private int stepOnNextLine(){
+        int character = 0;
+        try {
+            character = reader.read();
+            while (character != -1) {
+                if (character == 10){
+                    ID++;
+                    return ID;
+                }
+                character = reader.read();
+            }
+        } catch (IOException e) {
+            System.out.println("Text reading failed.");
+            e.printStackTrace();
+        }
+        return -1;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    private String getNextLine(){
+        int character = 0;
+        StringBuilder sb = new StringBuilder();
+        try {
+            character = reader.read();
+            while (character != -1) {
+                if (character == 10){
+                    ID++;
+                    return sb.toString();
+                }
+                sb.append((char) character);
+                character = reader.read();
+            }
+        } catch (IOException e) {
+            System.out.println("Text reading failed.");
+            e.printStackTrace();
+        }
+        return null;
     }
 
-    public String getSeparate() {
-        return separate;
+    public String getValueFromID(int id) throws Exception {
+        if(ID>id) throw new Exception("Position read after desired position. Restart Reader!");
+        while (ID != id) {
+            stepOnNextLine();
+        }
+        return getNextLine();
     }
 
-    public void setSeparate(String separate) {
-        this.path = separate;
+    public ArrayList<Integer> getIDsFromValue(String column, String value) throws Exception {
+        startRead(column);
+        ArrayList<Integer> id = new ArrayList<>();
+        String getValue = getNextLine();
+        while (getValue != null) {
+            if (getValue.equals(value)){
+                id.add(ID);
+            }
+            getValue = getNextLine();
+        }
+        return id;
     }
 
-    public ArrayList<ArrayList> getLineList() {
-        return lineList;
+    public HashMap<String, String> getRowFromId(int id) throws Exception {
+        HashMap<String, String> bookInfo = new HashMap<>();
+        for (String column :columnsName){
+            startRead(column);
+            bookInfo.put(column, getValueFromID(id));
+        }
+        return bookInfo;
     }
 
-    public void setLineList(ArrayList<ArrayList> lineList) {
-        this.lineList = lineList;
+    public ArrayList<HashMap<String, String>> getRowsFromId(ArrayList<Integer> ids) throws Exception {
+        ArrayList<HashMap<String, String>> books = new ArrayList<>();
+        for (int id :ids){
+            books.add(getRowFromId(id));
+        }
+        return books;
     }
+    public ArrayList<HashMap<String, String>> getAllData() throws Exception {
+        getCountRows();
+        ArrayList<HashMap<String, String>> data = new ArrayList<>();
+        for (int id = 0; id< length; id++){
+            HashMap<String, String> bookInfo = new HashMap<>();
+            for (String column :columnsName){
+                startRead(column);
+                bookInfo.put(column, getValueFromID(id));
+            }
+            data.add(bookInfo);
+        }
+        return data;
+    }
+
+    private String deleteRowFromColumn(String column, int id) throws Exception {
+        getCountRows();
+        StringBuilder saveData = new StringBuilder();
+        String deleteValue;
+        startRead(column);
+        saveData.append(readColumnName).append("\n");
+        while (ID != id) {
+            saveData.append(getNextLine()).append("\n");
+        }
+        deleteValue = getNextLine();
+        while (ID < length) {
+            saveData.append(getNextLine()).append("\n");
+        }
+        rewriteColumn(column, saveData.toString());
+        return deleteValue;
+    }
+
+    public HashMap<String, String> deleteRow(int id) throws Exception {
+        HashMap<String, String> delRow = new HashMap<>();
+        for (String column :columnsName){
+            delRow.put(column, deleteRowFromColumn(column, id));
+        }
+        return delRow;
+    }
+
+    public void addNewRow(HashMap<String, String> newRow){
+        for (String column :columnsName){
+            addToColumn(column, newRow.get(column)+"\n");
+        }
+    }
+
+    public String getReadColumnName() {
+        return readColumnName;
+    }
+
+    abstract void log();
 }
