@@ -6,12 +6,8 @@ import java.util.HashMap;
 public class Main {
 
     public static void main(String[] args) {
-        FileReader books = new FileReader("Books", new String[]{"id", "name", "author", "publisher", "edition", "publication_year", "category"}){
-            @Override
-            void log() {
 
-            }
-        };
+        FileReader books = new Books();
 
         HashMap<String , String> addRow = new HashMap<>();
         String[] columnName = books.columnsName;

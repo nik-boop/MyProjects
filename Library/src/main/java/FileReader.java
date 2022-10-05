@@ -8,18 +8,15 @@ import java.util.HashMap;
 public abstract class FileReader {
 
     private final String rootPath = "src/main/resources";
-    private final String dataDir;
-    protected final String[] columnsName;
+    private String dataDir;
+    protected String[] columnsName;
 
     private int length = 0;
     private int ID = 0;
     private String readColumnName;
     private java.io.FileReader reader;
 
-    public FileReader(String dataDir, String[] columnsName) {
-        this.dataDir = dataDir;
-        this.columnsName = columnsName;
-    }
+
 
     private boolean checkColumnName(String column){
         for (String element : columnsName) {
@@ -45,7 +42,6 @@ public abstract class FileReader {
         reader = new java.io.FileReader(rootPath + "/" + dataDir + "/" + column);
         ID = 0;
         readColumnName = getNextLine();
-
     }
 
     public void stopRead(){
