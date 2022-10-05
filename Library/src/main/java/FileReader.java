@@ -9,10 +9,9 @@ public abstract class FileReader {
 
     private final String rootPath = "src/main/resources";
     private final String dataDir;
-    private final String[] columnsName;
+    protected final String[] columnsName;
 
     private int length = 0;
-
     private int ID = 0;
     private String readColumnName;
     private java.io.FileReader reader;
@@ -42,14 +41,7 @@ public abstract class FileReader {
     }
 
     public void startRead(String column) throws Exception {
-        boolean test = false;
-        for (String element : columnsName) {
-            if (element == column) {
-                test = true;
-                break;
-            }
-        }
-        if(!test) throw new Exception("don`t find column");
+        if(!checkColumnName(column)) throw new Exception("don`t find column");
         reader = new java.io.FileReader(rootPath + "/" + dataDir + "/" + column);
         ID = 0;
         readColumnName = getNextLine();
@@ -160,7 +152,7 @@ public abstract class FileReader {
     public ArrayList<HashMap<String, String>> getAllData() throws Exception {
         getCountRows();
         ArrayList<HashMap<String, String>> data = new ArrayList<>();
-        for (int id = 0; id< length; id++){
+        for (int id = 1; id < length; id++){
             HashMap<String, String> bookInfo = new HashMap<>();
             for (String column :columnsName){
                 startRead(column);
@@ -172,7 +164,6 @@ public abstract class FileReader {
     }
 
     private String deleteRowFromColumn(String column, int id) throws Exception {
-        getCountRows();
         StringBuilder saveData = new StringBuilder();
         String deleteValue;
         startRead(column);
@@ -189,10 +180,12 @@ public abstract class FileReader {
     }
 
     public HashMap<String, String> deleteRow(int id) throws Exception {
+        getCountRows();
         HashMap<String, String> delRow = new HashMap<>();
         for (String column :columnsName){
             delRow.put(column, deleteRowFromColumn(column, id));
         }
+        length--;
         return delRow;
     }
 
@@ -200,6 +193,7 @@ public abstract class FileReader {
         for (String column :columnsName){
             addToColumn(column, newRow.get(column)+"\n");
         }
+        length++;
     }
 
     public String getReadColumnName() {
