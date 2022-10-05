@@ -17,7 +17,7 @@ public class Books extends FileReader{
     }
 
     @Override
-    void log() {
-
+    void log(String text){
+        super.addToColumn("log", text);
     }
 }

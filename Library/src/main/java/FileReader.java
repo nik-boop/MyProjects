@@ -19,32 +19,32 @@ public abstract class FileReader {
 
 
     private boolean checkColumnName(String column){
+        if (column.equals("log")) return true;
         for (String element : columnsName) {
-            if (element == column) {
+            if (element.equals(column)) {
                 return true;
             }
         }
         return false;
     }
 
-    public int getCountRows() throws Exception {
+    public void getCountRows() throws Exception {
         startRead(columnsName[0]);
         while (true) {
             if (stepOnNextLine() == -1) break;
         }
         length = ID;
         stopRead();
-        return length;
     }
 
-    public void startRead(String column) throws Exception {
+    protected void startRead(String column) throws Exception {
         if(!checkColumnName(column)) throw new Exception("don`t find column");
         reader = new java.io.FileReader(rootPath + "/" + dataDir + "/" + column);
         ID = 0;
         readColumnName = getNextLine();
     }
 
-    public void stopRead(){
+    private void stopRead(){
         ID = 0;
         reader = null;
         readColumnName = null;
@@ -61,7 +61,7 @@ public abstract class FileReader {
         }
     }
 
-    private void addToColumn(String column, String row){
+    protected void addToColumn(String column, String row) {
         try {
             Files.write(Path.of(rootPath + "/" + dataDir + "/" + column), row.getBytes(), StandardOpenOption.APPEND);
         }catch (IOException e) {
@@ -108,7 +108,7 @@ public abstract class FileReader {
         return null;
     }
 
-    public String getValueFromID(int id) throws Exception {
+    private String getValueFromID(int id) throws Exception {
         if(ID>id) throw new Exception("Position read after desired position. Restart Reader!");
         while (ID != id) {
             stepOnNextLine();
@@ -191,10 +191,5 @@ public abstract class FileReader {
         }
         length++;
     }
-
-    public String getReadColumnName() {
-        return readColumnName;
-    }
-
-    abstract void log();
+    abstract void log(String text);
 }

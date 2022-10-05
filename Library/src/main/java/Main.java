@@ -1,4 +1,5 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,7 +19,31 @@ public class Main {
         books.addNewRow(addRow);
 
         try {
+            ArrayList<Integer> ids = books.getIDsFromValue("author", "Author1");
+
+            System.out.printf("Value %s include in row with ids: %s", "Author1", ids);
+
+            HashMap<String, String> row1 = books.getRowFromId(1);
+            for (String name: row1.keySet()) {
+                String value = row1.get(name).toString();
+                System.out.printf("%-20s :: %s%n",name, value);
+            }
+
+            ArrayList<HashMap<String, String>> rows = books.getRowsFromId(ids);
+
+            System.out.printf("Value %s include in row with ids: %s", "Author1", ids);
+
             int count = 0;
+            for(HashMap<String, String> row : rows){
+                count++;
+                System.out.printf("%s%n", count);
+                for (String name: row.keySet()) {
+                    String value = row.get(name).toString();
+                    System.out.printf("\t%-20s :: %s%n",name, value);
+                }
+            }
+
+            count = 0;
             for(HashMap<String, String> row : books.getAllData()){
                 count++;
                 System.out.printf("%s%n", count);
@@ -28,7 +53,7 @@ public class Main {
                 }
             }
 
-            books.deleteRow(2);
+            HashMap<String, String> deleteRow = books.deleteRow(2);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
