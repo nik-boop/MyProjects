@@ -1,5 +1,3 @@
-package main.java;
-
 public class Employee extends Human{
     public int employeeId;
 

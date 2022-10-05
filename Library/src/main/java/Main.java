@@ -1,8 +1,4 @@
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 
 public class Main {
 
@@ -10,6 +6,15 @@ public class Main {
 
         Book books = new Book();
 
+        try {
+            ArrayList<Integer> idBooks = books.getIdBooks();
+            System.out.println(idBooks.toString());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+        /*
         HashMap<String , String> addRow = new HashMap<>();
         String[] columnName = new String[] {"id", "name", "author", "edition", "publisher", "publication_year", "category"};
         String[] values = new String[]{"20", "Book2", "Author1", "Издано: \"2003\"", "ABC\"Book\"", "2003", "roman"};
@@ -54,9 +59,11 @@ public class Main {
                 }
             }
 
-            HashMap<String, String> deleteRow = books.deleteRow(2);
+            //HashMap<String, String> deleteRow = books.deleteRow(2);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
+         */
     }
 }

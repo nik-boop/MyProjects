@@ -1,5 +1,3 @@
-package main.java;
-
 public class Reader extends Human {
     public Reader(int id, String name, String surname, String middleName, String address) {
         super(id, name, surname, middleName, address);

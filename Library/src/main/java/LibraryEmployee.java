@@ -1,5 +1,3 @@
-package main.java;
-
 public class LibraryEmployee extends Employee {
 
     public LibraryEmployee(int id, String name, String surname, String middleName, String address, int employeeId) {

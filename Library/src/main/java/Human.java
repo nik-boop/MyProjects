@@ -1,5 +1,3 @@
-package main.java;
-
 public class Human {
     public int id;
     public String name;
