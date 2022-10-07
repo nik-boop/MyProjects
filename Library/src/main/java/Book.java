@@ -7,19 +7,45 @@ import java.util.HashMap;
 
 public class Book {
 
+    /**
+     *Путь от корневой директории до папки с ресурсамти
+     */
     private final String rootPath = "src/main/resources";
-    private String dataDir = "Books";
-    private String[] columnsName  = new String[] {"id", "name", "author", "publisher", "edition", "publication_year", "category"};
+    /**
+     *Папка с файлаами атрибутов книг
+     */
+    private final String dataDir = "Books";
+    /**
+     * Имена фалвов хранящих информацию о книге
+     */
+    private final String[] columnsName  = new String[] {"id", "name", "author", "publisher", "edition", "publication_year", "category"};
 
+    /**
+     * Количество записей о книгах
+     */
     private int length = 0;
+    /**
+     * Текущий номер просматриваемой строки
+     */
     private int Index = 0;
+    /**
+     * Просматриваемый столбец
+     */
     private String readColumnName;
+    /**
+     * java.io.FileReader
+     */
     private java.io.FileReader reader;
 
+    /**
+     *  ArrayList хранящий HashMap<String, String> с записями атрибутов всех книг
+     */
     private ArrayList<HashMap<String, String>> allData;
 
+    /**
+     * ID всех книг
+     */
     private ArrayList<Integer> IDBooks = new ArrayList<>();
-
 
     public Book() {
         try {
@@ -84,7 +110,7 @@ public class Book {
         }
     }
 
-    protected void addToColumn(String column, String row) {
+    private void addToColumn(String column, String row) {
         try {
             Files.write(Path.of(rootPath + "/" + dataDir + "/" + column), row.getBytes(), StandardOpenOption.APPEND);
         }catch (IOException e) {
@@ -132,7 +158,7 @@ public class Book {
     }
 
     private String getValueFromIndex(int index) throws Exception {
-        if(Index >index) throw new Exception("Position read after desired position. Restart Reader!");
+        if (Index > index) throw new Exception("Position read after desired position. Restart Reader!");
         while (Index != index) {
             stepOnNextLine();
         }
@@ -219,7 +245,7 @@ public class Book {
     }
 
     public void addNewBook(HashMap<String, String> newRow) throws Exception {
-        if ( IDBooks.contains(Integer.parseInt(newRow.get("id")))) throw new Exception("Index already exist");
+        if ( IDBooks.contains(Integer.parseInt(newRow.get("id")))) throw new Exception("ID already exist");
         for (String column :columnsName){
             addToColumn(column, newRow.get(column)+"\n");
         }
@@ -242,8 +268,5 @@ public class Book {
     }
     public ArrayList<HashMap<String, String>> getAllDataList(){
         return allData;
-    }
-    public ArrayList<Integer> getIDBooks(){
-        return IDBooks;
     }
 }
