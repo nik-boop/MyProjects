@@ -49,7 +49,7 @@ public class Book {
     private ArrayList<Integer> IDBooks = new ArrayList<>();
 
     /**
-     * Creator ласса
+     * Creator класса
      * при создании экземпляра считывает всю информацию в переменную addData
      * и получает ID книг
      */

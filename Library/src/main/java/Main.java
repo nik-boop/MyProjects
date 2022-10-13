@@ -13,7 +13,6 @@ public class Main {
             throw new RuntimeException(e);
         }
 
-
         /*
         HashMap<String , String> addRow = new HashMap<>();
         String[] columnName = new String[] {"id", "name", "author", "edition", "publisher", "publication_year", "category"};
