@@ -1,14 +1,17 @@
 import java.util.HashMap;
 
 public class Manager extends Employee {
-    private Book books = new Book();
+    private final Book books = new Book();
     public Manager(int id, String name, String surname, String middleName, String address, int employeeId) {
+        // Конструктор класса
         super(id, name, surname, middleName, address, employeeId);
     }
 
     public void createNewBook(int id, String name, String author, String edition, String publisher, int publication_year, String category) throws Exception {
+        // Создание новой книги менеджером
         HashMap<String , String> addBook = new HashMap<>();
         addBook.put("id", Integer.toString(id));
+        addBook.put("name", name);
         addBook.put("author", author);
         addBook.put("edition", edition);
         addBook.put("publisher", publisher);
