@@ -35,6 +35,7 @@ public class Task8 {
 
     public static void main(String[] args) {
         Menu mainMenu = new Menu();
+        Menu changeMenu = new Menu();
 
 
         try (
@@ -60,31 +61,102 @@ public class Task8 {
 
 
         ) {
+            changeMenu.addItem(1, "id", (stems, in) -> {
+                System.out.print("id employer: ");
+                Integer id = in.nextInt();
+                System.out.print("new id: ");
+                Integer new_id = in.nextInt();
+                try {
+                    stems.executeUpdate(String.format("UPDATE mydb.people SET id = %s where id = %s", new_id, id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            changeMenu.addItem(2, "name", (stems, in) -> {
+                System.out.print("id employer: ");
+                String id = in.next();
+                System.out.print("new firstname: ");
+                String new_name = in.next();
+                try {
+                    stems.executeUpdate(String.format("UPDATE mydb.people SET firstname = '%s' where id = %s", new_name, id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            changeMenu.addItem(3, "surname", (stems, in) -> {
+                System.out.print("id employer: ");
+                String id = in.next();
+                System.out.print("new surname: ");
+                String new_surname = in.next();
+                try {
+                    stems.executeUpdate(String.format("UPDATE mydb.people SET surname = '%s' where id = %s", new_surname, id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            changeMenu.addItem(4, "date_of_birth", (stems, in) -> {
+                System.out.print("id employer: ");
+                String id = in.next();
+                System.out.print("new date_of_birth: ");
+                String new_date_of_birth = in.next();
+                try {
+                    stems.executeUpdate(String.format("UPDATE mydb.people SET date_of_birth = '%s' where id = %s", new_date_of_birth, id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            changeMenu.addItem(5, "place_of_birth", (stems, in) -> {
+                System.out.print("id employer: ");
+                String id = in.next();
+                System.out.print("new place_of_birth: ");
+                String new_place_of_birth = in.next();
+                try {
+                    stems.executeUpdate(String.format("UPDATE mydb.people SET place_of_birth = '%s' where id = %s", new_place_of_birth, id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            changeMenu.addItem(6, "salary", (stems, in) -> {
+                System.out.print("id employer: ");
+                String id = in.next();
+                System.out.print("new salary: ");
+                String new_salary = in.next();
+                try {
+                    stems.executeUpdate(String.format("UPDATE mydb.people SET salary = %s where id = %s", new_salary, id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            changeMenu.addItem(7, "marital_status", (stems, in) -> {
+                System.out.print("id employer: ");
+                String id = in.next();
+                System.out.print("new marital_status: ");
+                String new_marital_status = in.next();
+                try {
+                    stems.executeUpdate(String.format("UPDATE mydb.people SET marital_status = %s where id = %s", new_marital_status, id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
             mainMenu.addItem(1, "add employer", (stems, in) -> {
                 try {
                     System.out.print("id: ");
                     int id = in.nextInt();
                     System.out.print("firstname: ");
-                    String firstname = in.nextLine();
-                    System.out.println();
+                    String firstname = in.next();
                     System.out.print("surname: ");
-                    String surname = in.nextLine();
-                    System.out.println();
+                    String surname = in.next();
                     System.out.print("date_of_birth: ");
-                    String date_of_birth = in.nextLine();
-                    System.out.println();
+                    String date_of_birth = in.next();
                     System.out.print("place_of_birth: ");
-                    String place_of_birth = in.nextLine();
-                    System.out.println();
-                    System.out.print("place_of_birth: ");
-                    String salary = in.nextLine();
-                    System.out.println();
-                    System.out.print("place_of_birth: ");
-                    String marital_status = in.nextLine();
-                    System.out.println();
-                    stems.executeQuery(String.format("INSERT IGNORE INTO People(" +
+                    String place_of_birth = in.next();
+                    System.out.print("salary: ");
+                    String salary = in.next();
+                    System.out.print("marital_status: ");
+                    String marital_status = in.next();
+                    stems.executeUpdate(String.format("INSERT IGNORE INTO People(" +
                                     "id, firstname, surname, date_of_birth, place_of_birth, salary, marital_status) " +
-                                    "VALUE (%s,%s,%s,%s,%s,%s,%s)", id, firstname, surname, date_of_birth, place_of_birth,
+                                    "VALUE (%s,'%s','%s','%s','%s',%s,%s)", id, firstname, surname, date_of_birth, place_of_birth,
                             salary, marital_status)
                     );
                 } catch (SQLException e) {
@@ -95,7 +167,6 @@ public class Task8 {
                 try {
                     System.out.print("Write id: ");
                     int id = in.nextInt();
-                    System.out.println();
                     Task8.printouts(stems.executeQuery("SELECT * FROM mydb.people WHERE id = " + id));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
@@ -105,18 +176,40 @@ public class Task8 {
                 try {
                     System.out.print("Write name: ");
                     String name = in.next();
-                    System.out.println();
                     Task8.printouts(stems.executeQuery("SELECT * FROM mydb.people WHERE firstname = '" + name + "'"));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
             });
-            mainMenu.addItem(4, "Date of birth", (stems, in) -> {
+            mainMenu.addItem(4, "get employer by Date of birth", (stems, in) -> {
                 try {
                     System.out.print("Write date of birth: ");
                     String date_of_birth = in.next();
-                    System.out.println();
                     Task8.printouts(stems.executeQuery("SELECT * FROM mydb.people WHERE date_of_birth = '" + date_of_birth + "'"));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            mainMenu.addItem(5, "change employer data", (stems, in) -> {
+                changeMenu.printMenu();
+                System.out.print("ch> ");
+                int selectedOption = in.nextInt();
+                changeMenu.run(selectedOption, stmt, in);
+            });
+            mainMenu.addItem(6, "delete employer", (stems, in) -> {
+                try {
+                    System.out.print("id employer: ");
+                    String id = in.next();
+                    stems.executeUpdate(String.format("DELETE FROM mydb.people WHERE id = %s", id));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            mainMenu.addItem(7, "get sum salary", (stems, in) -> {
+                try {
+                    ResultSet res = stems.executeQuery("SELECT SUM(mydb.people.salary) FROM mydb.people");
+                    res.next();
+                    System.out.println(String.format("sum salary = %s", res.getString(1)));
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }

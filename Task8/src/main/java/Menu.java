@@ -14,6 +14,7 @@ interface MyFunction {
 class Item {
     public String label;
     public MyFunction myFunction;
+
     public Item(String label, MyFunction myFunction) {
         this.label = label;
         this.myFunction = myFunction;
@@ -24,18 +25,25 @@ public class Menu {
     HashMap<Integer, Item> menu = new HashMap<>();
 
     public void printMenu() {
-        System.out.println("Menu--------------------");
+        int max_length = 0;
+        int last_index = 0;
+        for (Map.Entry<Integer, Item> entry : menu.entrySet()) {
+            max_length = Integer.max(entry.getValue().label.length(), max_length);
+            last_index = entry.getKey();
+        }
+        max_length += Integer.toString(last_index).length() + 3;
+        System.out.println("Menu" + "-".repeat(max_length - 4));
         for (Map.Entry<Integer, Item> entry : menu.entrySet()) {
             System.out.printf("%s - %-20s%n", entry.getKey(), entry.getValue().label);
         }
-        System.out.println("------------------------");
+        System.out.println("-".repeat(max_length));
     }
 
-    public void addItem(int id, String label, MyFunction funk){
+    public void addItem(int id, String label, MyFunction funk) {
         menu.put(id, new Item(label, funk));
     }
 
-    public void run(int index, Statement stems, Scanner in){
+    public void run(int index, Statement stems, Scanner in) {
         menu.get(index).myFunction.run(stems, in);
     }
 
