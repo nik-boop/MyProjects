@@ -7,12 +7,12 @@ CREATE TABLE people
     firstname      VARCHAR(255),
     surname        VARCHAR(255),
     address        VARCHAR(255),
-    Date_of_birth  DATA(255),
+    date_of_birth  DATE,
     Place_of_birth VARCHAR(255),
-    Salary         FLOAT(255),
+    Salary         FLOAT,
     Marital_status BOOL
 );
-INSERT INTO People(firstname,surname,addresssys_configsys_config)
+INSERT INTO People(firstname,surname,address)
 VALUES 
    ('John','Do','Canada'),
    ('Salim','Salem','Morocco'),

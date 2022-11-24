@@ -5,20 +5,17 @@ public class Task8 {
     static final String DATABASE_URL = "jdbc:mysql://localhost:3306/mydb";
     static final String USERNAME = "root";
     static final String PASSWORD = "Admin01.01";
-
-    protected void add_employer(Statement stmt, int id, String name, String lastName, String dateBirth, String placeBirth, double salary, boolean maritalStatus) {
-        try {
-            stmt.executeQuery(String.format("INSERT IGNORE INTO People(id, firstname, surname, date_of_birth, place_of_birth, salary, marital_status) VALUE (%s,%s,%s,%s,%s,%s,%s)", id, name, lastName, dateBirth, placeBirth, salary, maritalStatus));
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    static final String[] column_name = new String[]{"id", "firstname", "surname", "date_of_birth", "place_of_birth", "salary", "marital_status"};
 
     public static void printouts(ResultSet res) {
+        int max_length = 0;
         while (true) {
             try {
                 if (!res.next()) break;
-                System.out.println("----------------");
+                for (int i = 0; i < column_name.length; i++) {
+                    max_length = Integer.max(res.getString(column_name[i]).length(), max_length);
+                }
+                System.out.println("Person----------" + "-".repeat(max_length));
                 System.out.println("ID             :" + res.getInt("id"));
                 System.out.println("First Name     :" + res.getString("firstname"));
                 System.out.println("Surname        :" + res.getString("surname"));
@@ -26,7 +23,7 @@ public class Task8 {
                 System.out.println("Place of birth :" + res.getString("place_of_birth"));
                 System.out.println("Salary         :" + res.getString("salary"));
                 System.out.println("Marital status :" + res.getString("marital_status"));
-                System.out.println("----------------");
+                System.out.println("----------------" + "-".repeat(max_length));
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -71,6 +68,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             changeMenu.addItem(2, "name", (stems, in) -> {
                 System.out.print("id employer: ");
@@ -82,6 +80,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             changeMenu.addItem(3, "surname", (stems, in) -> {
                 System.out.print("id employer: ");
@@ -93,6 +92,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             changeMenu.addItem(4, "date_of_birth", (stems, in) -> {
                 System.out.print("id employer: ");
@@ -104,6 +104,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             changeMenu.addItem(5, "place_of_birth", (stems, in) -> {
                 System.out.print("id employer: ");
@@ -115,6 +116,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             changeMenu.addItem(6, "salary", (stems, in) -> {
                 System.out.print("id employer: ");
@@ -126,6 +128,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             changeMenu.addItem(7, "marital_status", (stems, in) -> {
                 System.out.print("id employer: ");
@@ -137,6 +140,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             mainMenu.addItem(1, "add employer", (stems, in) -> {
                 try {
@@ -162,6 +166,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             mainMenu.addItem(2, "get employer by ID", (stems, in) -> {
                 try {
@@ -204,6 +209,7 @@ public class Task8 {
                 } catch (SQLException e) {
                     throw new RuntimeException(e);
                 }
+                System.out.println("DB Update");
             });
             mainMenu.addItem(7, "get sum salary", (stems, in) -> {
                 try {
