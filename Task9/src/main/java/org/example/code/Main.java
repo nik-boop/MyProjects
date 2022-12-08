@@ -30,6 +30,7 @@ public class Main {
 
         constraints.gridx = 0;
         constraints.gridy = 0;
+        constraints.anchor = GridBagConstraints.LINE_END;
         container.add(login_text, constraints);
         constraints.gridx = 1;
         constraints.gridy = 0;
