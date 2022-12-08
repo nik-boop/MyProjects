@@ -126,7 +126,7 @@ public class Main {
         /* -------------- change panel ------------ */
 
         JLabel summ_salary_text = new JLabel("Сумма зарплат сотрудников");
-        JLabel summ_salary = new JLabel();
+        JLabel summ_salary = new JLabel("0");
 
         JButton get_info = new JButton("Получить информацию о сотрудниках");
 
@@ -143,6 +143,7 @@ public class Main {
 
         constraints_main_page_admin.gridx = 0;
         constraints_main_page_admin.gridy = 0;
+        constraints_main_page_admin.anchor = GridBagConstraints.LINE_START;
         admin_panel.add(add_user_label, constraints_main_page_admin);
 
         constraints_main_page_admin.gridx = 1;
@@ -163,6 +164,7 @@ public class Main {
 
         constraints_main_page_admin.gridx = 0;
         constraints_main_page_admin.gridy = 2;
+        constraints_main_page_admin.anchor = GridBagConstraints.LINE_START;
         admin_panel.add(user_password_label, constraints_main_page_admin);
 
         constraints_main_page_admin.gridx = 1;
@@ -199,6 +201,7 @@ public class Main {
 
         constraints_search.gridx = 0;
         constraints_search.gridy = 1;
+        constraints_search.anchor = GridBagConstraints.LINE_START;
         search.add(employee_id_text, constraints_search);
 
         constraints_search.gridx = 1;
@@ -240,6 +243,7 @@ public class Main {
 
         constraints_change.insets = new Insets(5, 5, 5, 5);
 
+        constraints_change.anchor = GridBagConstraints.LINE_START;
         constraints_change.gridx = 0;
         constraints_change.gridy = 0;
         change.add(change_employee_id_text, constraints_change);
@@ -299,7 +303,7 @@ public class Main {
         GridBagConstraints constraints_stats = new GridBagConstraints();
 
         constraints_stats.insets = new Insets(5, 5, 5, 5);
-
+        constraints_stats.anchor = GridBagConstraints.LINE_START;
         constraints_stats.gridx = 0;
         constraints_stats.gridy = 0;
         stats.add(summ_salary_text, constraints_stats);
