@@ -100,6 +100,9 @@ public class Main {
 
         JButton search_user = new JButton("Найти сотрудника");
 
+        JTable table_search = new JTable();
+        JScrollPane sp_search = new JScrollPane(table_search);
+
         /* -------------- change panel ------------ */
         JLabel change_employee_id_text = new JLabel("ID сотрудника");
         JTextField change_employee_id = new JTextField(15);
@@ -118,6 +121,14 @@ public class Main {
         JLabel family_st_text = new JLabel("Семейное положение");
         JCheckBox family_st = new JCheckBox();
 
+        JButton save_change_button = new JButton("Сохранить изменения");
+
+        /* -------------- change panel ------------ */
+
+        JLabel summ_salary_text = new JLabel("Сумма зарплат сотрудников");
+        JLabel summ_salary = new JLabel();
+
+        JButton get_info = new JButton("Получить информацию о сотрудниках");
 
         /* ------------ Add components ----------- */
 
@@ -214,6 +225,13 @@ public class Main {
         constraints_search.gridy = 4;
         search.add(search_user, constraints_search);
 
+        constraints_search.gridx = 0;
+        constraints_search.gridy = 5;
+        constraints_search.gridwidth = 3;
+        search.add(sp_search, constraints_search);
+
+
+
         /* -------------- change panel ------------ */
         change.setLayout(new GridBagLayout());
         change.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
@@ -270,6 +288,30 @@ public class Main {
         constraints_change.gridx = 1;
         constraints_change.gridy = 7;
         change.add(family_st, constraints_change);
+        constraints_change.gridx = 0;
+        constraints_change.gridy = 8;
+        change.add(save_change_button, constraints_change);
+
+        /* -------------- stats panel ------------- */
+        stats.setLayout(new GridBagLayout());
+        stats.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
+
+        GridBagConstraints constraints_stats = new GridBagConstraints();
+
+        constraints_stats.insets = new Insets(5, 5, 5, 5);
+
+        constraints_stats.gridx = 0;
+        constraints_stats.gridy = 0;
+        stats.add(summ_salary_text, constraints_stats);
+        constraints_stats.gridx = 1;
+        constraints_stats.gridy = 0;
+        stats.add(summ_salary, constraints_stats);
+
+        constraints_stats.gridx = 0;
+        constraints_stats.gridy = 1;
+        stats.add(get_info, constraints_stats);
+
+
 
 
         JTabbedPane jtabbedPane = new JTabbedPane();
@@ -287,7 +329,7 @@ public class Main {
         main_frame.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 
-        main_frame.setSize(600, 350);
+        main_frame.setSize(600, 700);
         main_frame.setLocationRelativeTo(null);
         main_frame.setVisible(true);
 
