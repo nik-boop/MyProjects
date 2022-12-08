@@ -338,12 +338,6 @@ public class Main {
         main_frame.setLocationRelativeTo(null);
         main_frame.setVisible(true);
 
-
-
-
-
-        //main_frame.setVisible(true);
-
         main_frame.addWindowListener(new WindowListener() {
             @Override
             public void windowOpened(WindowEvent e) {
