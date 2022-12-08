@@ -3,13 +3,17 @@ package org.example.code;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.*;
 
 import static java.awt.GraphicsDevice.WindowTranslucency.*;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
         System.out.println("Start");
         JFrame registration = new JFrame("Registration");
+        final String DATABASE_URL = "jdbc:sqlite:mydb.db";
+        Connection conn = DriverManager.getConnection(DATABASE_URL);
+        System.out.println("Connection established!");
 
         registration.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -325,11 +329,6 @@ public class Main {
         jtabbedPane.addTab("Поиск", search);
         jtabbedPane.addTab("Изменить информацию", change);
 
-        //admin_panel.setEnabled(false);
-
-        jtabbedPane.setEnabledAt(1, false);
-        jtabbedPane.setEnabledAt(1, false);
-
         main_page_panel.add(jtabbedPane);
 
 
@@ -341,7 +340,7 @@ public class Main {
 
         main_frame.setSize(700, 800);
         main_frame.setLocationRelativeTo(null);
-        main_frame.setVisible(true);
+        main_frame.setVisible(false);
 
         main_frame.addWindowListener(new WindowListener() {
             @Override
@@ -377,6 +376,60 @@ public class Main {
             @Override
             public void windowDeactivated(WindowEvent e) {
                 System.out.println("JFrame is deactivated.");
+            }
+        });
+
+        button_log_in.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String checkQuery = String.format("""
+                        SELECT * FROM people_login WHERE login = "%s" AND password = "%s"
+                        """, login.getText(), password.getText());
+                System.out.println(checkQuery);
+                Statement stmt = null;
+                try {
+                    stmt = conn.createStatement();
+                    ResultSet rs = stmt.executeQuery(checkQuery);
+                    if (rs.next()) {
+                        System.out.println("Успешный логин");
+                        System.out.println(rs.getString("role"));
+
+
+
+                        switch (rs.getString("role")) {
+                            case "Администратор": {
+                                jtabbedPane.setEnabledAt(0, true);
+                                jtabbedPane.setEnabledAt(1, true);
+                                jtabbedPane.setEnabledAt(2, true);
+                                jtabbedPane.setEnabledAt(3, true);
+                            }
+                            case "Редактор": {
+                                jtabbedPane.setEnabledAt(0, true);
+                                jtabbedPane.setEnabledAt(1, false);
+                                jtabbedPane.setEnabledAt(2, true);
+                                jtabbedPane.setEnabledAt(3, true);
+                            }
+                            case "Зритель": {
+                                jtabbedPane.setEnabledAt(0, true);
+                                jtabbedPane.setEnabledAt(1, false);
+                                jtabbedPane.setEnabledAt(2, true);
+                                jtabbedPane.setEnabledAt(3, false);
+                            }
+                        }
+
+                        main_frame.setVisible(true);
+                        registration.setVisible(false);
+                    }
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
+
+        search_user.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("123");
             }
         });
 
