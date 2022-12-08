@@ -320,10 +320,15 @@ public class Main {
 
 
         JTabbedPane jtabbedPane = new JTabbedPane();
+        jtabbedPane.addTab("Информация о сотрудниках", stats);
         jtabbedPane.addTab("Администрирование", admin_panel);
         jtabbedPane.addTab("Поиск", search);
         jtabbedPane.addTab("Изменить информацию", change);
-        jtabbedPane.addTab("Информация о сотрудниках", stats);
+
+        //admin_panel.setEnabled(false);
+
+        jtabbedPane.setEnabledAt(1, false);
+        jtabbedPane.setEnabledAt(1, false);
 
         main_page_panel.add(jtabbedPane);
 
@@ -334,7 +339,7 @@ public class Main {
         main_frame.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
 
-        main_frame.setSize(600, 700);
+        main_frame.setSize(700, 800);
         main_frame.setLocationRelativeTo(null);
         main_frame.setVisible(true);
 
