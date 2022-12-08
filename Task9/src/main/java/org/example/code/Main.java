@@ -383,6 +383,13 @@ public class Main {
             }
         });
 
+        new Timer(16, new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                //step(); Функция изменения чего-то
+                //repaint(); В случае изменения нужно вызвать у обекта JPanel для перерисовки
+            }
+        }).start();
+
 
 
     }
