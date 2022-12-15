@@ -460,6 +460,7 @@ public class Main {
                             }
 
                             main_frame.setVisible(true);
+
                             registration.setVisible(false);
                         }
                     } catch (SQLException ex) {
@@ -592,7 +593,7 @@ public class Main {
                                         salary.getText(),
                                         family_st.isSelected()
                                 ));
-                        for (int i = 0; i < ChangeTable.data.length-1; i++) {
+                        for (int i = 0; i < ChangeTable.data.length - 1; i++) {
                             changes_table.setValueAt("", 0, i);
                         }
                         changes_table.setValueAt(false, 0, 7);
@@ -697,7 +698,7 @@ public class Main {
                         stmt.executeUpdate(
                                 String.format(
                                         "DELETE FROM `mydb`.`people` WHERE id = %s;", id));
-                        for (int i = 0; i < ChangeTable.data.length-1; i++) {
+                        for (int i = 0; i < ChangeTable.data.length - 1; i++) {
                             changes_table.setValueAt("", 0, i);
                         }
                     } catch (SQLException ex) {
@@ -707,21 +708,14 @@ public class Main {
             });
 
             main_frame.addWindowListener(new WindowAdapter() {
-                                             @Override
-                                             public void windowClosing(WindowEvent e) {
-                                                 System.out.println("JFrame is closing.");
-                                             }
-                                         }
+                @Override
+                public void windowClosing(WindowEvent e) {
+                    System.out.println("JFrame is closing.");
+                }
+            }
             );
 
-            new Timer(16, new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    //step(); Функция изменения чего-то
-                    //repaint(); В случае изменения нужно вызвать у обекта JPanel для перерисовки
-                }
-            }).
 
-                    start();
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
