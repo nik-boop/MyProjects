@@ -1,6 +1,7 @@
-Name,Age
-Rob,10
-Rom,15
-Rim,30
-Ram,60
-Rem,12
+age,firstName,lastName,birthDate,weight
+18,Roa,Boa,2005/01/01,0
+23,Rob,Bor,2000/01/01,1
+28,Rom,Bar,1995/01/01,2
+33,Roh,Boh,1990/01/01,3
+38,Ros,Bos,1985/01/01,4
+43,Rod,Bob,1980/01/01,5
