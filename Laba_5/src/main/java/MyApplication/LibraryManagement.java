@@ -117,4 +117,8 @@ public class LibraryManagement implements ILibraryManagment {
     public int size() {
         return listItem.size();
     }
+
+    public Item getItemFromIndex(int index) {
+        return listItem.get(index);
+    }
 }

@@ -295,7 +295,7 @@ public class FrameApp extends JFrame {
         public void actionPerformed(ActionEvent e) {
             String str = "Список продуктов:\n";
             for (int i = 0; i < libraryManagement.size(); i++) {
-                Item item = libraryManagement.getItem(i);
+                Item item = libraryManagement.getItemFromIndex(i);
                 str = str + item.getInfo() + "\n";
             }
             StringSelection selection = new StringSelection(str);
