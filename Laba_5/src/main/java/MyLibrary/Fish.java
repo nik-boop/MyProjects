@@ -17,4 +17,9 @@ public class Fish extends Item{
         String str = String.format("Fish\n id:%s\n name:%s\n shelfLife:%s\n weight:%s%s\n comment:%s\n----", id, name, shelfLife, weight, weightId.get(weightType), comment);
         return str;
     }
+
+    @Override
+    public String getWeight() {
+        return String.format("%s%s", weight, weightId.get(weightType));
+    }
 }

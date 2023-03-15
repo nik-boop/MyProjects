@@ -40,11 +40,11 @@ public class LibraryManagement implements ILibraryManagment {
         listItem.add(bird);
     }
 
-    private void start(){
+    public void start(){
         this.index = 0;
     }
 
-    private Item getNext() {
+    public Item getNext() {
         if (listItem.size() > index) {
             index++;
             return listItem.get(index-1);
@@ -95,7 +95,26 @@ public class LibraryManagement implements ILibraryManagment {
     }
 
     @Override
+    public ArrayList<Item> findItem(int id) {
+        ArrayList<Item> findItems = new ArrayList();
+        start();
+        Item item = getNext();
+        while (item != null){
+            if (item.getId() == id) {
+                findItems.add(item);
+                return findItems;
+            }
+            item = getNext();
+        }
+        return findItems;
+    }
+
+    @Override
     public void printItems() {
        listItem.stream().forEach(x -> System.out.println(x.getInfo()));
+    }
+
+    public int size() {
+        return listItem.size();
     }
 }

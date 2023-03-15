@@ -25,5 +25,6 @@ public interface ILibraryManagment {
     public void removeItem(int id);
     public Item getItem(int id);
     public ArrayList<Item> findItem(String name);
+    public ArrayList<Item> findItem(int id);
     public void printItems();
 }

@@ -12,6 +12,7 @@ abstract public class Item {
     protected int id;
     protected String name;
     protected int weight;
+    protected int weightType;
     protected LocalDate shelfLife;
     protected String comment;
 
@@ -34,14 +35,12 @@ abstract public class Item {
         return shelfLife;
     }
 
-    public int getWeight() {
-        return weight;
-    }
-
     public String getComment() {
         return comment;
     }
 
     abstract public String getInfo();
+
+    abstract public String getWeight();
 }
 
