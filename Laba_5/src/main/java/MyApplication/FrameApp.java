@@ -215,6 +215,9 @@ public class FrameApp extends JFrame {
     private class ButtonAdd implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
+            if (libraryManagement.findItem(Integer.parseInt(textFieldID.getText())).size() > 0) {
+                return;
+            }
             if (radioButtonBird.isSelected()) {
                 libraryManagement.addBird(Integer.parseInt(textFieldID.getText()), textFieldName.getText(), LocalDate.parse(textFieldLastDate.getText()), Double.parseDouble(textFieldWeight.getText()), Integer.parseInt(textFieldWeightType.getText()), textFieldComment.getText());
             } else if (radioButtonFish.isSelected()) {
