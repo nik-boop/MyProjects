@@ -10,15 +10,17 @@ public class Main extends JPanel {
     private Graphics G;
     private Double ArrowAngle = 0.;
 
-    public void paintCircle(Graphics g, int x, int y, int r, boolean Centre, boolean Fill) {
+    public void paintCircle(Graphics g, int x, int y, int r, boolean Centre, boolean Fill, int width) {
+        Graphics2D g2 = (Graphics2D) g;
         if (Centre) {
-            x = Double.valueOf(x - (r / 2)).intValue();
-            y = Double.valueOf(y - (r / 2)).intValue();
+            x = Double.valueOf(x - ((double) r / 2)).intValue();
+            y = Double.valueOf(y - ((double) r / 2)).intValue();
         }
         if (Fill) {
             g.fillOval(x, y, r, r);
         } else {
-            g.drawOval(x, y, r, r);
+            g2.setStroke(new BasicStroke(width));
+            g2.drawOval(x, y, r, r);
         }
     }
 
@@ -39,7 +41,7 @@ public class Main extends JPanel {
         }
     }
 
-    public void paintDivisionsText(Graphics g, int x, int y, int r, float width, Double startAngle, Double endAngle, String[] texts) {
+    public void paintDivisionsText(Graphics g, int x, int y, int r, int width, Double startAngle, Double endAngle, String[] texts) {
         Graphics2D g2 = (Graphics2D) g;
         double angleStep = (endAngle - startAngle) / (texts.length - 1);
         Double x1, y1;
@@ -49,6 +51,7 @@ public class Main extends JPanel {
             double sin = Math.sin(a);
             x1 = x + r * cos;
             y1 = y + r * sin;
+            g.setFont(new Font("TimesRoman", Font.BOLD, width));
             g2.drawString(texts[step], x1.intValue() - texts[step].length() / 2 * 8, y1.intValue() + 4);
         }
     }
@@ -56,18 +59,19 @@ public class Main extends JPanel {
     public void paintArrow(Graphics g, int x, int y, int r, Double Angle, Color color, int thickness) {
         Graphics2D g2 = (Graphics2D) g;
 
-        double a = (Angle) / 180 * Math.PI;
+        double a = (Angle) / 180 * Math.PI - Math.PI/2;
         double cos = Math.cos(a);
         double sin = Math.sin(a);
 
-        Double x2 = x + r * cos;
-        Double y2 = y + r * sin;
+        double x2 = x;
+        double y2 = y;
 
         Polygon ARROW_HEAD = new Polygon();
 
-        ARROW_HEAD.addPoint(0, 0);
-        ARROW_HEAD.addPoint(-5, -10);
-        ARROW_HEAD.addPoint(5, -10);
+        ARROW_HEAD.addPoint(1, r);
+        ARROW_HEAD.addPoint(-1, r);
+        ARROW_HEAD.addPoint(-4, 0);
+        ARROW_HEAD.addPoint(4, 0);
 
         double angle = Math.atan2(y2 - y, x2 - x);
 
@@ -80,7 +84,7 @@ public class Main extends JPanel {
         AffineTransform tx2 = (AffineTransform) tx1.clone();
 
         tx2.translate(x2, y2);
-        tx2.rotate(angle - Math.PI / 2);
+        tx2.rotate(a);
 
         g2.setTransform(tx2);
 
@@ -97,21 +101,49 @@ public class Main extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         this.G = g;
+        int x = 200;
+        int y = 200;
+        int r = 150;
         Graphics2D g2 = (Graphics2D) g;
-        String[] text = {"0", "22.5", "45", "67.5", "90"};
-        paintDivisions(g, 100, 100, 50, 15.0, 2, -180., 0., 9);
-        paintDivisionsText(g, 100, 100, 40, 1, -180., 0., text);
-        paintArrow(g, 100, 100, 30, ArrowAngle, Color.RED, 2);
+        String[] text1 = {"", "10"};
+        String[] text2 = {"20", "30", "40", "45", "50", "55", "60", "65"};
+        String[] text3 = {"20", "40", "60"};
+        String[] text4 = {"80", "90", "100"};
+        g.setColor(Color.GRAY);
+        paintCircle(g, x, y, (r+17)*2, true, false, 4);
+        g.setColor(Color.BLACK);
+
+        paintDivisions(g, x, y, r+2, 8., 2, -210., 45., 8*5+3);
+
+        paintDivisions(g, x, y, r, 12., 4, -225., -220., 2);
+        paintDivisionsText(g, x, y, r-20, 24, -225., -220., text1);
+
+        paintDivisions(g, x, y, r, 12., 4, -210., 45., 8);
+        paintDivisionsText(g, x, y, r-20, 24, -210., 45., text2);
+
+        g.setColor(Color.ORANGE);
+        paintDivisions(g, x, y, r/2, 6., 4, -220., -135., 3);
+        paintDivisionsText(g, x, y, r/2-20, 16, -220., -135., text3);
+
+
+        paintDivisions(g, x, y, r/2, 6., 4, -60., 30., 3);
+        paintDivisionsText(g, x, y, r/2-20, 16, -60., 30., text4);
+
+        paintArrow(g, x, y, r+10, ArrowAngle, Color.RED, 2);
+
+        g.setColor(Color.BLACK);
+        paintCircle(g, x, y, (50), true, true, 1);
+
     }
 
     public static void main(String[] args) {
         JFrame frame = new JFrame("Opel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(300, 300);
+        frame.setSize(400, 450);
         Main canvas = new Main();
         frame.add(canvas, BorderLayout.CENTER);
 
-        JSlider slider = new JSlider(-270, 270, 0);
+        JSlider slider = new JSlider(-225, 45, 0);
         slider.setPreferredSize(new Dimension(150, 30));
         slider.addChangeListener(new ChangeListener() {
             public void stateChanged(ChangeEvent event) {
