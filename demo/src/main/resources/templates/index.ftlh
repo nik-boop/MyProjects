@@ -3,52 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Organizer</title>
-    <link rel="stylesheet" type="text/css" href="/css/style.x19952.css"/>
+    <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
 <body>
 <h1>Organizer</h1>
-<h3>Add task to list</h3>
+<h3>Добавить товар</h3>
 <form action="/add" method="post">
     <table border="1px">
         <tr>
             <td>
-                <label>Priority</label>
-                <input type="number" name="priorityId">
+                <label>Название</label>
+                <input type="text" name="name">
             </td>
             <td>
-                <label>Description</label>
-                <input type="text" name="description">
-            </td>
-            <td>
-                <label>Date</label>
+                <label>Сток годности</label>
                 <input type="date" name="date">
+            </td>
+            <td>
+                <label>Вес</label>
+                <input type="float" name="weight">
+            </td>
+            <td>
+                <label>Комментарий</label>
+                <input type="text" name="comment">
             </td>
 
             <td>
-                <input type="submit" value="add task">
+                <input type="submit" value="Добавить">
             </td>
 
         </tr>
 
     </table>
 </form>
+<form action="/search" method="post">
+    <label>ID</label>
+    <input type="number" name="id">
+    <input type="submit" value="Найти">
+</td>
+
+</form>
 <br>
-<h2>Task list(task count : ${taskSize})</h2>
+<h2>Task list(item count : ${itemSize})</h2>
 <table border="1px">
     <tr>
         <td>Id</td>
-        <td>Priority</td>
-        <td>Task description</td>
-        <td>Date</td>
-        <td>Delete from list</td>
+        <td>Название</td>
+        <td>Срок годности</td>
+        <td>Вес</td>
+        <td>Комментарий</td>
+        <td>Удалить</td>
     </tr>
-    <#list taskList as task>
+    <#list itemList as item>
         <tr>
-            <td>${task.id}</td>
-            <td>${task.priorityId}</td>
-            <td>${task.description}</td>
-            <td>${task.date}</td>
-            <td><a href="${'/delete/'+task.id}"">Delete</a></td>
+            <td>${item.id}</td>
+            <td>${item.name}</td>
+            <td>${item.date}</td>
+            <td>${item.weight}</td>
+            <td>${item.comment}</td>
+            <td><a href="${'/delete/'+item.id}"">Удалить</a></td>
         </tr>
     </#list>
 </table>
