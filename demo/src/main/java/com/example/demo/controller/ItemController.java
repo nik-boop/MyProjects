@@ -39,7 +39,7 @@ public class ItemController {
     @PostMapping("/search")
     public String searchItem(Model model, int id) {
         Optional<Item> item = itemService.searchById(id);
-        model.addAttribute("itemList", item);
+        model.addAttribute("searchItem", item);
         return "redirect:/";
     }
 }

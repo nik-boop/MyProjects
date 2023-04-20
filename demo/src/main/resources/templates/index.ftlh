@@ -6,10 +6,10 @@
     <link rel="stylesheet" type="text/css" href="/css/style.css"/>
 </head>
 <body>
-<h1>Organizer</h1>
+<h1>Склад</h1>
 <h3>Добавить товар</h3>
 <form action="/add" method="post">
-    <table border="1px">
+    <table id="input" border="1px">
         <tr>
             <td>
                 <label>Название</label>
@@ -29,7 +29,7 @@
             </td>
 
             <td>
-                <input type="submit" value="Добавить">
+                <input id="add" type="submit" value="Добавить">
             </td>
 
         </tr>
@@ -44,7 +44,7 @@
 
 </form>
 <br>
-<h2>Task list(item count : ${itemSize})</h2>
+<h2>Список товаров(item count : ${itemSize})</h2>
 <table border="1px">
     <tr>
         <td>Id</td>

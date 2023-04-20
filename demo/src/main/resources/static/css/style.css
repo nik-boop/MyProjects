@@ -2,6 +2,37 @@ table {
     border-collapse: collapse;
 }
 
-table th, table td {
+table th {
     padding: 2px;
+}
+
+table td {
+    padding: 2px;
+    min-width: 100px;
+}
+
+#input td {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 0px;
+}
+
+#input tr {
+    display: flex;
+}
+
+#input {
+    border: 0px;
+    margin: 5px;
+}
+
+
+
+#add {
+    border: 0;
+    text-align: center;
+    height: 100%;
+    background: dodgerblue;
+    border-radius: 6px;
 }
